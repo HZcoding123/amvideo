@@ -84,6 +84,8 @@ WSGI_APPLICATION = 'amvideo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+#  配置mysql数据库
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -141,3 +143,15 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 配置media文件夹
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 配置user
+AUTH_USER_MODEL = 'user.user'
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'amvideo.utils.exceptions.common_excepeion_handler',
+}
+

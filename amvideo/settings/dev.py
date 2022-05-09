@@ -163,7 +163,10 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7)
 }
 
+PHONE_CACHE_KEY = 'sms_cache_%s'
+
 CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -173,6 +176,7 @@ CORS_ALLOW_METHODS = [
     'PUT',
     'VIEW',
 ]
+
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -184,3 +188,16 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# 配置redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+            # "PASSWORD": "密码",
+        }
+    }
+}

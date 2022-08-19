@@ -6,6 +6,7 @@ from django.core.cache import cache
 import re
 from django.conf import settings
 from . import models
+from amvideo.utils.throttings import SMSThrotting
 
 
 # 账号密码登录接口
@@ -23,6 +24,9 @@ class LoginView(GenericAPIView):
 
 #  短信验证码发送接口
 class SendMsgView(GenericAPIView):
+
+    # 限制短信验证码接口访问次数
+    throttle_classes = [SMSThrotting]
 
     def get(self, request, *args, **kwargs):
         telephone = request.query_params.get('telephone')

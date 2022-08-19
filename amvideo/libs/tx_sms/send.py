@@ -1,3 +1,5 @@
+import os
+
 from tencentcloud.common import credential
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 # 导入对应产品模块的client models。
@@ -24,11 +26,10 @@ def send_message(phone_number, code):
         # 你也可以直接在代码中写死密钥对，但是小心不要将代码复制、上传或者分享给他人，
         # 以免泄露密钥对危及你的财产安全。
         # SecretId、SecretKey 查询: https://console.cloud.tencent.com/cam/capi
-        cred = credential.Credential("AKIDg8LHwLSKwHMBj00jBMGtFJ6dttc5IEtH", "80b2C5heQwDE0ZtxpSpwmMfhSxBAuPfh")
-        # cred = credential.Credential(
-        #     os.environ.get(""),
-        #     os.environ.get("")
-        # )
+        cred = credential.Credential(
+            os.environ.get("SecretId"),
+            os.environ.get("SecretKey")
+        )
 
         # 实例化一个http选项，可选的，没有特殊需求可以跳过。
         httpProfile = HttpProfile()

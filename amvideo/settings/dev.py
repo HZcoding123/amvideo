@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'user',
+    'home',
+    'video',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +99,7 @@ DATABASES = {
         'PASSWORD': 'amvideo123',
         'HOST': '127.0.0.1',
         'PORT': 3306,
+        'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
 
@@ -155,7 +158,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'user.user'
 
 REST_FRAMEWORK = {
+    # 自定义异常捕获
     'EXCEPTION_HANDLER': 'amvideo.utils.exceptions.common_excepeion_handler',
+    # 设置接口访问次数
+    'DEFAULT_THROTTLE_RATES': {
+        'sms': '1/m',
+        'comment': '6/m',
+    },
 }
 
 # 配置JWT过期时间
@@ -164,6 +173,8 @@ JWT_AUTH = {
 }
 
 PHONE_CACHE_KEY = 'sms_cache_%s'
+
+BANNER_COUNTING = 4
 
 CORS_ORIGIN_ALLOW_ALL = True
 

@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ['username']
+        fields = ['username', 'icon']
 
 
 #  视频群查接口序列化类

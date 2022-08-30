@@ -59,7 +59,8 @@ class Comment(BaseModel):
         for son in self.son_comment.all():
             son_comment_list.append({
                 "user": {
-                    "username": son.user.username
+                    "username": son.user.username,
+                    "icon": str(son.user.icon)
                 },
                 "content": son.content,
                 "comment_time": son.comment_time,

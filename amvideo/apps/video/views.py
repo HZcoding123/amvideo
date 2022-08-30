@@ -11,6 +11,7 @@ from celery_task.saveComment import save_comment
 from amvideo.utils.throttings import CommentThrotting
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.serializers import jwt_decode_handler
 
 
 
@@ -64,12 +65,15 @@ class CommentSaveView(GenericAPIView):
     authentication_classes = [JSONWebTokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-
     '''
         评论存储视图，通过celery异步处理，存入数据库
     '''
     def post(self, request, *args, **kwargs):
-        # save_comment.delay(request.data)
+        request_token = request.headers['Authorization']  # 根据前端的请求头取出token
+        user_id = jwt_decode_handler(request_token[4:])['user_id']  # 使用登录用户的token反向解析出用户对象
+        request.data['user'] = user_id   # 给前端请求体的评论信息加上用户id方便序列化存入数据库
+        print(request.data)
+        # save_comment.delay(request.data)  # 将需要存储的评论信息交给celery异步存储
         return Myresponse(result='成功')
 
 
@@ -93,4 +97,5 @@ class CommentGetView(GenericAPIView):
             cache.set('comment_list', comment_list, 60*60*24)
         comment_list = self.filter_queryset(comment_list)  # 按照get请求过滤字段过滤
         comment_data = self.get_serializer(comment_list, many=True)  # 按照过滤结果进行序列化
+        print(comment_data.data)
         return Myresponse(data=comment_data.data)
